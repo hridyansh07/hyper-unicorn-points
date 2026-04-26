@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EntryPoint {
+  DIRECT
+  VAULT
+}
+
+model User {
+  address        String   @id
+  totalPointsRaw String   @default("0")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  shards         Shard[]
+}
+
+model Shard {
+  id                String     @id @default(cuid())
+  userAddress       String
+  user              User       @relation(fields: [userAddress], references: [address])
+  entrypoint        EntryPoint
+  sourceId          String
+  sourceAsset       String
+  sourceQuantityRaw String
+  sourceDecimals    Int
+  principalUsdRaw   String
+  accruedPointsRaw  String     @default("0")
+  lockedRateRaw     String
+  startTime         DateTime
+  lastAccrualTime   DateTime
+  active            Boolean    @default(true)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@index([userAddress, entrypoint, sourceAsset, active, startTime, createdAt])
+  @@index([active])
+}
+
+model ProtocolConfig {
+  id           Int      @id @default(1)
+  vaultMultRaw String
+  mMaxRaw      String
+  tCapSeconds  Int
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+}

@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-pp-purple: #4E14D0;
+  --color-pp-purple-deep: #2a0a6e;
+  --color-pp-light-purple: #9B6FFF;
+  --color-pp-green: #00D091;
+
+  --color-warm-bg: #f6f0e8;
+  --color-warm-card: #fdf8f1;
+  --color-warm-line: #d8c5c0;
+  --color-warm-line-soft: #e8dcd5;
+  --color-warm-ink: #2a1f3a;
+  --color-warm-ink-soft: #6b5a73;
+  --color-warm-ink-faint: #a89aa0;
+
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+html, body, #root { margin: 0; padding: 0; height: 100%; }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-warm-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .wf-screen {
+    @apply w-full min-h-screen flex flex-col text-warm-ink font-sans;
+    background:
+      radial-gradient(ellipse at top right, rgba(155,111,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(78,20,208,0.05) 0%, transparent 50%),
+      var(--color-warm-bg);
+  }
+  .wf-card {
+    @apply bg-warm-card border border-warm-line-soft rounded-xl p-[18px];
+  }
+  .wf-card-dashed {
+    @apply border-dashed border-warm-line;
+  }
+  .wf-eyebrow {
+    @apply font-mono text-[10px] tracking-[0.08em] uppercase text-warm-ink-faint;
+  }
+  .wf-mono { font-family: var(--font-mono); }
+  .wf-faint { color: var(--color-warm-ink-faint); }
+  .wf-soft  { color: var(--color-warm-ink-soft); }
+  .wf-divider-dashed {
+    @apply h-0 border-t border-dashed border-warm-line my-3;
+  }
+  .wf-avatar {
+    @apply rounded-full border border-warm-line flex-shrink-0;
+    background:
+      repeating-linear-gradient(45deg,
+        var(--color-warm-line-soft) 0 3px,
+        var(--color-warm-card) 3px 5px);
+  }
+}
+
+/* chart svg path animation */
+.pp-anim-d   { transition: d 600ms cubic-bezier(.2,.7,.3,1); }
+.pp-anim-cy  { transition: cx 600ms cubic-bezier(.2,.7,.3,1), cy 600ms cubic-bezier(.2,.7,.3,1); }
+.pp-anim-cy-end { transition: cx 600ms cubic-bezier(.2,.7,.3,1), cy 600ms cubic-bezier(.2,.7,.3,1); }
+.pp-anim-cxy { transition: transform 600ms cubic-bezier(.2,.7,.3,1); }
