@@ -16,6 +16,62 @@ I’m stating these upfront because they shape most of the design decisions:
 
 ---
 
+## How To Run
+
+Ensure Docker and Docker Compose are present
+
+From the repo root:
+
+```bash
+docker compose up
+```
+
+This starts Postgres, runs backend migrations and seed data, starts the backend,
+and starts the frontend.
+
+### Fallback: Run Apps With Package Scripts
+
+If you do not want to run the backend/frontend through Compose, keep Postgres
+available and run each app from its own `package.json`.
+
+Create the backend env file:
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+The default backend `.env` is:
+
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/panoptic_points?schema=public"
+PORT=3001
+```
+
+Then start the backend:
+
+```bash
+cd backend
+yarn install
+yarn prisma:generate
+yarn prisma:migrate
+yarn prisma:seed
+yarn start:dev
+```
+
+In a second terminal, start the frontend:
+
+```bash
+cd frontend
+yarn install
+yarn dev
+```
+
+The frontend runs on `localhost:5173` and proxies `/v1` API calls to
+`localhost:3001` by default.
+
+---
+
 ## Overview
 
 This system rewards liquidity providers leading up to TGE.
